@@ -3,6 +3,7 @@ import { getItems, deleteItem } from "../services/ItemService";
 import { Item, UpdateItem } from "../types/Item";
 import AddItem from "./AddItem";
 import EditItem from "./EditItem";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 // interface ItemListProps {
 //     updateItem: (data:UpdateItem) => void; // Accepts a function that takes an object
@@ -17,7 +18,9 @@ const ItemList: React.FC = () => {
     price: 0,
   });
   const [isEdit, setIsEdit] = useState<Boolean>(false);
+  const [isDelete, setIsDelete] = useState<Boolean>(false);
   const [editItem, setEditItem] = useState<Item>(newItem);
+  const [itemToDelete, setItemToDelete] = useState<number | string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
@@ -39,14 +42,30 @@ const ItemList: React.FC = () => {
   };
 
   // Delete an item
-  const onDeleteItem = async (id: number | string) => {
+  const onDeleteItem = (id: number | string) => {
+    setIsDelete(true);
+    setItemToDelete(id);
+
+    // try {
+    //   setLoading(true);
+    //   const deletedItem = await deleteItem(id);
+    //   console.log("Deleted Item:", deletedItem);
+    // } catch (error) {
+    //   console.error("Error deleting item:", error);
+    // } finally {
+    //     fetchItems();
+    // }
+  };
+
+  const handleDelete = async () => {
     try {
-      setLoading(true);
-      const deletedItem = await deleteItem(id);
+      // setLoading(true);
+      const deletedItem = await deleteItem(itemToDelete);
       console.log("Deleted Item:", deletedItem);
     } catch (error) {
       console.error("Error deleting item:", error);
     } finally {
+      setIsDelete(false);
         fetchItems();
     }
   };
@@ -94,9 +113,9 @@ const ItemList: React.FC = () => {
       <h1 className="text-3xl font-semibold mb-4 text-center">Items</h1>
       <div className="mb-6">
         {isEdit ? (
-          <EditItem item={editItem} getData={fetchItems} />
+          <EditItem item={editItem} getData={fetchItems} onCancel={() => setIsEdit(false)}/>
         ) : (
-          <AddItem />
+          <AddItem getData={fetchItems}/>
         )}
       </div>
       {/* Table */}
@@ -171,6 +190,7 @@ const ItemList: React.FC = () => {
                 </td>
               </tr>
             ))}
+            {isDelete ? <DeleteConfirmationModal isVisible={isDelete} onConfirm={() => handleDelete()} onCancel={() => setIsDelete(false)}/> : null}
           </tbody>
         </table>
         </div>
@@ -182,14 +202,14 @@ const ItemList: React.FC = () => {
         <button
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-4 py-2 bg-gray-300 text-black rounded-lg mr-2"
+          className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-black rounded-lg mr-2"
         >
           Previous
         </button>
         <button
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage * itemsPerPage >= items.length}
-          className="px-4 py-2 bg-gray-300 text-black rounded-lg"
+          className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-black rounded-lg"
         >
           Next
         </button>

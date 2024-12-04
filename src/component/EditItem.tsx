@@ -4,10 +4,11 @@ import { Item } from "../types/Item";
 
 interface EditItemProps {
     item: Item;
-    getData: () => void
+    getData: () => void;
+    onCancel: () => void;
   }
 
-const EditItem: React.FC<EditItemProps> = ({item,getData}) => {
+const EditItem: React.FC<EditItemProps> = ({item,getData,onCancel}) => {
   const [editedItem, setEditedItem] = useState<Item>(item);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -18,10 +19,15 @@ const EditItem: React.FC<EditItemProps> = ({item,getData}) => {
     getData();
   };
 
+  const handleCancel = () => {
+    setEditedItem({ id: "", title: "", description: "", price: 0 });
+    onCancel();
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       {/* <h2 className="font-semibold text-xl mb-2">Edit Item</h2> */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-4">
         <input
           type="text"
           value={editedItem.title}
@@ -53,6 +59,14 @@ const EditItem: React.FC<EditItemProps> = ({item,getData}) => {
           disabled={false}
         >
           Update Item
+        </button>
+        <button
+        type="reset"
+          className="sm:col-span-1 px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
+          disabled={false}
+          onClick={handleCancel}
+        >
+          Cancel
         </button>
       </div>
     </form>

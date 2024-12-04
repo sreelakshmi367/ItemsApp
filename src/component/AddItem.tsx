@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { createItem } from "../services/ItemService";
 import { Item } from "../types/Item";
 
-const AddItem: React.FC = () => {
+interface AddItemProps {
+  getData: () => void;
+}
+
+const AddItem: React.FC<AddItemProps> = ({getData}) => {
   const [newItem, setNewItem] = useState<Item>({
     id: '',
     title: "",
@@ -33,18 +37,24 @@ const AddItem: React.FC = () => {
     const createdItem = await createItem(newItem);
     console.log("Created Item:", createdItem);
     setNewItem({ id: '',title: "", description: "", price: 0 });
+    getData();
+  };
+
+  const handleCancel = () => {
+    setNewItem({ id: '',title: "", description: "", price: 0 });
   };
 
   return (
     <form onSubmit={handleSubmit}>
       {/* <h2 className="font-semibold text-xl mb-2">Add Item</h2> */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-4">
         <input
           type="text"
           value={newItem.title}
           onChange={(e) => setNewItem({ ...newItem, title: e.target.value })}
           className="border px-4 py-2 rounded-lg w-full"
           placeholder="Title"
+          required = {true}
         />
         <input
           type="text"
@@ -54,6 +64,7 @@ const AddItem: React.FC = () => {
           }
           className="border px-4 py-2 rounded-lg w-full"
           placeholder="Description"
+          required = {true}
         />
         <input
           type="number"
@@ -63,6 +74,7 @@ const AddItem: React.FC = () => {
           }
           className="border px-4 py-2 rounded-lg w-full"
           placeholder="Price"
+          required = {true}
         />
         <button
         type="submit"
@@ -70,6 +82,14 @@ const AddItem: React.FC = () => {
           disabled={false}
         >
           Add Item
+        </button>
+        <button
+        type="reset"
+          className="sm:col-span-1 px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
+          disabled={false}
+          onClick={handleCancel}
+        >
+          Cancel
         </button>
       </div>
     </form>
