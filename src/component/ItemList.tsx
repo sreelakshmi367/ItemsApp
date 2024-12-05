@@ -217,14 +217,14 @@ const ItemList: React.FC = () => {
           <button
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-black rounded-lg mr-2 text-xs sm:text-sm"
+            className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-black rounded-lg mr-2 text-xs sm:text-sm disabled:bg-gray-100"
           >
             Previous
           </button>
           <button
             onClick={() => paginate(currentPage + 1)}
             disabled={currentPage * itemsPerPage >= items.length}
-            className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-black rounded-lg text-xs sm:text-sm"
+            className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-black rounded-lg text-xs sm:text-sm disabled:bg-gray-100"
           >
             Next
           </button>
