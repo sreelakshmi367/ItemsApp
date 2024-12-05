@@ -52,6 +52,7 @@ const EditItem: React.FC<EditItemProps> = ({ item, getData, onCancel }) => {
             }
             className="border px-4 py-2 rounded-lg w-full"
             placeholder="Title"
+            data-testid="edit-title-input"
           />
           <input
             type="text"
@@ -61,6 +62,7 @@ const EditItem: React.FC<EditItemProps> = ({ item, getData, onCancel }) => {
             }
             className="border px-4 py-2 rounded-lg w-full"
             placeholder="Description"
+            data-testid="edit-description-input" 
           />
           <input
             type="number"
@@ -73,11 +75,13 @@ const EditItem: React.FC<EditItemProps> = ({ item, getData, onCancel }) => {
             }
             className="border px-4 py-2 rounded-lg w-full"
             placeholder="Price"
+            data-testid="edit-price-input" 
           />
           <button
             type="submit"
             className="sm:col-span-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
             disabled={false}
+            data-testid="update-button"
           >
             Update Item
           </button>
@@ -86,6 +90,7 @@ const EditItem: React.FC<EditItemProps> = ({ item, getData, onCancel }) => {
             className="sm:col-span-1 px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
             disabled={false}
             onClick={handleCancel}
+            data-testid="cancel-button"
           >
             Cancel
           </button>

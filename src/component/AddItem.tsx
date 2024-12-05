@@ -53,6 +53,7 @@ const AddItem: React.FC<AddItemProps> = ({ getData }) => {
             className="border px-4 py-2 rounded-lg w-full"
             placeholder="Title"
             required={true}
+            data-testid="title-input"
           />
           <input
             type="text"
@@ -63,6 +64,7 @@ const AddItem: React.FC<AddItemProps> = ({ getData }) => {
             className="border px-4 py-2 rounded-lg w-full"
             placeholder="Description"
             required={true}
+            data-testid="description-input"
           />
           <input
             type="number"
@@ -73,11 +75,13 @@ const AddItem: React.FC<AddItemProps> = ({ getData }) => {
             className="border px-4 py-2 rounded-lg w-full"
             placeholder="Price"
             required={true}
+            data-testid="price-input"
           />
           <button
             type="submit"
             className="sm:col-span-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
             disabled={false}
+            data-testid="add-button"
           >
             Add Item
           </button>
@@ -86,6 +90,7 @@ const AddItem: React.FC<AddItemProps> = ({ getData }) => {
             className="sm:col-span-1 px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
             disabled={false}
             onClick={handleCancel}
+            data-testid="cancel-button"
           >
             Cancel
           </button>

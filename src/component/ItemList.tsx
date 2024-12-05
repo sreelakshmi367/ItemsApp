@@ -21,9 +21,10 @@ const ItemList: React.FC = () => {
   const [itemToDelete, setItemToDelete] = useState<number | string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(10);
+  const [itemsPerPage] = useState<number>(8);
   const [sortBy, setSortBy] = useState<string>("title");
   const [sortOrder, setSortOrder] = useState<string>("asc");
+  // const [sortConfig, setSortConfig] = useState<{ key: keyof Item; direction: 'asc' | 'desc' } | null>(null);
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [alertError, setAlertError] = useState(false);
 
@@ -95,6 +96,13 @@ const ItemList: React.FC = () => {
     });
   };
 
+  const getArrow = (key:string) => {
+    if (sortOrder === key) {
+      return sortOrder === 'asc' ? '▼' : '▲';
+    }
+    return null;
+  };
+
   // Paginate the items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -132,7 +140,7 @@ const ItemList: React.FC = () => {
         <div className="text-center text-xl text-gray-500">Loading...</div>
       )}
       {!loading && (
-        <div className="overflow-x-auto overflow-y-auto max-h-96">
+        <div className="overflow-x-auto overflow-y-auto lg:max-h-26 max-h-screen">
           <table className="min-w-full table-auto mt-4 border-collapse">
             <thead>
               <tr className="bg-gray-200">
@@ -143,7 +151,7 @@ const ItemList: React.FC = () => {
                     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
                   }}
                 >
-                  Title
+                  Title {getArrow(sortOrder)}
                 </th>
                 <th
                   className="px-4 py-2 text-left cursor-pointer max-w-xs truncate"
@@ -152,18 +160,18 @@ const ItemList: React.FC = () => {
                     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
                   }}
                 >
-                  Description
+                  Description {getArrow(sortOrder)}
                 </th>
                 <th
-                  className="px-4 py-2 text-right cursor-pointer"
+                  className="px-4 py-2 text-right cursor-pointer min-w-32"
                   onClick={() => {
                     setSortBy("price");
                     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
                   }}
                 >
-                  Price
+                  Price {getArrow(sortOrder)}
                 </th>
-                <th className="px-4 py-2 text-center">Actions</th>
+                <th className="px-4 py-2 text-center ">Actions</th>
               </tr>
             </thead>
             <tbody>
